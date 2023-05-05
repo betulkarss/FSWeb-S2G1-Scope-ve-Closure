@@ -64,10 +64,11 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+function takimSkoru(maxSkor = 25, minSkor =10){
+    return Math.floor(Math.random()*(maxSkor - minSkor+1)) + minSkor;
+    
 }
-
+//console.log(takimSkoru(25,10));
 
 
 
@@ -86,9 +87,21 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(callback,periyot){
+  let evSahibi = 0;
+  let konukTakim = 0;
+ 
+ for(let i = 1 ; i<=periyot;i++){
+  evSahibi = evSahibi + callback();
+  konukTakim = konukTakim + callback();
+ }
+ const result = {
+  "EvSahibi": evSahibi,
+  "KonukTakim": konukTakim
 }
+return result;
+}
+console.log(macSonucu(takimSkoru, 4))
 
 
 
@@ -109,10 +122,14 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
-
+function periyotSkoru(takimSkoru) {
+let result = {
+  "EvSahibi": takimSkoru(),
+  "KonukTakim": takimSkoru()
+};
+return result;
 }
+console.log(periyotSkoru(takimSkoru))
 
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
@@ -146,9 +163,24 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(periyotSkoru,takimSkoru,ceyrekSayisi) {
+  const result = [];
+  let EvSahibi = 0;;
+  let KonukTakim =0;
+  for ( let i =1;i<=ceyrekSayisi;i++){
+    let periyotSonuc = periyotSkoru(takimSkoru);
+    EvSahibi +=  periyotSonuc.EvSahibi;
+    KonukTakim += periyotSonuc.KonukTakim;
+    const metin = `${i}.Periyot: Ev Sahibi ${periyotSonuc.EvSahibi}-Konuk Takım ${periyotSonuc.KonukTakim}`
+    result.push(metin);
+  }
+  const macSonucu = `Maç Sonucu: Ev Sahibi ${EvSahibi}-Konuk Takım ${KonukTakim}`
+  result.push(macSonucu)
+  return result;
+
+  
 }
+console.log(skorTabelasi(periyotSkoru,takimSkoru,4))
 
 
 
